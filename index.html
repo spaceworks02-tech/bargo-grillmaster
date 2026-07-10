@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d1526">
+<title>그릴마스터 챌린지 | 불의 향연 × 쿡캠</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="assets/icon-512.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css?v=47">
+</head>
+<body>
+<audio id="bgm" src="assets/bgm.mp3" loop preload="auto"></audio>
+<div id="app">
+
+  <button id="btn-sound-toggle" class="sound-toggle" aria-label="배경음악 켜기/끄기">🔊</button>
+
+  <!-- 0. 타이틀 화면 -->
+  <section id="screen-title" class="screen active">
+    <div class="event-tag">
+      <span class="event-tag-line"></span>
+      <span class="event-tag-text">「불의 향연」 2026.9.10~13</span>
+      <span class="event-tag-line"></span>
+    </div>
+    <div class="campfire" aria-hidden="true">
+      <div class="flame-glow"></div>
+      <video class="fire-video" src="assets/fire-loop.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <h1 class="title-main">그릴마스터<br>챌린지</h1>
+    <p class="title-sub">경남 K-BBQ 숯불체험관광페스티벌<br>쿡캠 올인원숯키트로 완벽한 바비큐를 완성하세요!</p>
+    <button id="btn-start" class="btn btn-primary btn-lg">게임 시작</button>
+    <div class="btn-row">
+      <button id="btn-howto" class="btn btn-ghost btn-sm">게임 방법</button>
+      <button id="btn-leaderboard-open" class="btn btn-ghost btn-sm">명예의 그릴러</button>
+    </div>
+  </section>
+
+  <!-- 0-1. 게임 방법 -->
+  <section id="screen-howto" class="screen">
+    <h2 class="section-title">게임 방법</h2>
+    <ol class="howto-list">
+      <li><span class="howto-icon">🧰</span><div><b>준비</b> — 실제 쿡캠 사용설명서 순서대로(점화→숯→숯받침→타오르기→그릴→고기) 탭하세요.</div></li>
+      <li><span class="howto-icon">🔥</span><div><b>착화</b> — 불꽃이 초록 구간에 있을 때 착화 버튼을 누르세요.</div></li>
+      <li><span class="howto-icon">🥩</span><div><b>굽기</b> — 고기가 노릇해지는 순간 탭해서 뒤집으세요.</div></li>
+      <li><span class="howto-icon">🏆</span><div><b>완성</b> — 3단계 점수를 합산해 등급과 쿠폰을 받아요!</div></li>
+    </ol>
+    <button id="btn-howto-close" class="btn btn-primary btn-lg">확인했어요</button>
+  </section>
+
+  <!-- 1. 준비: 언박싱 + 키트 조립 -->
+  <section id="screen-stage1" class="screen">
+    <div class="stage-header">
+      <span class="timer" id="s1-timer">10.0초</span>
+    </div>
+    <h2 class="stage-title">STAGE 1 · 준비</h2>
+
+    <div id="s1-unbox" class="unbox-wrap">
+      <div id="btn-unbox" class="unbox-tap-target" role="button" tabindex="0">
+        <div class="unbox-pulse-ring"></div>
+        <img src="assets/cookcam-box.png" alt="쿡캠 올인원숯키트 BBQ SOOT" class="unbox-img">
+      </div>
+      <p class="stage-instruction">쿡캠 올인원숯키트를 탭해서 개봉해보세요!</p>
+    </div>
+
+    <div id="s1-play" class="s1-play">
+      <p class="stage-instruction">표시된 순서대로 아이템을 탭하세요!</p>
+      <div class="sequence-display" id="s1-sequence"></div>
+      <div class="item-grid" id="s1-grid"></div>
+      <div class="progress-bar"><div class="progress-fill" id="s1-progress"></div></div>
+    </div>
+  </section>
+
+  <!-- 2. 착화 -->
+  <section id="screen-stage2" class="screen">
+    <div class="stage-header">
+      <span class="round-tag" id="s2-round">1 / 3</span>
+    </div>
+    <h2 class="stage-title">STAGE 2 · 착화</h2>
+    <div class="stage-body">
+      <p class="stage-instruction">불꽃이 초록 구간에 왔을 때 눌러주세요!</p>
+      <div class="ignite-track">
+        <div class="ignite-zone" id="s2-zone"></div>
+        <div class="ignite-marker" id="s2-marker">🔥</div>
+      </div>
+      <button id="btn-ignite" class="btn btn-primary btn-lg btn-fire">착화!</button>
+      <div class="hit-feedback" id="s2-feedback"></div>
+    </div>
+  </section>
+
+  <!-- 3. 굽기 -->
+  <section id="screen-stage3" class="screen">
+    <div class="stage-header">
+      <span class="timer" id="s3-timer">20.0초</span>
+    </div>
+    <h2 class="stage-title">STAGE 3 · 굽기</h2>
+    <div class="stage-body">
+      <p class="stage-instruction">노릇하게 익으면 탭해서 뒤집으세요! 타지 않게 조심!</p>
+      <div class="grill" id="s3-grill"></div>
+      <div class="score-live">이번 스테이지 점수: <b id="s3-score">0</b></div>
+    </div>
+  </section>
+
+  <!-- 4. 결과 -->
+  <section id="screen-result" class="screen">
+    <h2 class="section-title">완성!</h2>
+    <div class="result-summary-row">
+      <div class="result-grade-col">
+        <div class="grade-badge" id="result-grade-icon">🏆</div>
+        <div class="grade-name" id="result-grade-name">그릴마스터</div>
+        <div class="score-total">총점 <b id="result-score">0</b>점</div>
+      </div>
+      <div class="stage-breakdown" id="result-breakdown"></div>
+    </div>
+    <div class="coupon-box">
+      <div class="coupon-label">현장 교환 쿠폰 코드</div>
+      <div class="coupon-code" id="result-coupon">------</div>
+      <div class="coupon-note">부스 스태프에게 화면을 보여주세요</div>
+    </div>
+    <p class="drama-teaser">🎬 OTT 드라마 「인생은 고기서 고기까지??」 2026년 9월 공개 예정</p>
+    <div class="result-actions">
+      <button id="btn-share" class="btn btn-primary">결과 공유하기</button>
+      <button id="btn-save-score" class="btn btn-ghost">명예의 그릴러에 등록</button>
+      <button id="btn-retry" class="btn btn-ghost">다시 도전하기</button>
+    </div>
+  </section>
+
+  <!-- 5. 리더보드 -->
+  <section id="screen-leaderboard" class="screen">
+    <h2 class="section-title">명예의 그릴러</h2>
+    <ol class="leaderboard-list" id="leaderboard-list"></ol>
+    <button id="btn-leaderboard-close" class="btn btn-primary btn-lg">닫기</button>
+  </section>
+
+  <!-- 닉네임 입력 모달 -->
+  <div id="modal-nickname" class="modal hidden">
+    <div class="modal-box">
+      <h3>닉네임을 입력하세요</h3>
+      <input id="nickname-input" maxlength="8" placeholder="예: 숯불장인">
+      <button id="btn-nickname-submit" class="btn btn-primary">등록</button>
+    </div>
+  </div>
+
+  <!-- 공유 이미지 모달 -->
+  <div id="modal-share-image" class="modal hidden">
+    <div class="modal-box">
+      <h3>결과 이미지가 준비됐어요!</h3>
+      <img id="share-preview-img" class="share-preview-img" alt="공유용 결과 카드">
+      <p class="share-preview-hint">이미지를 길게 눌러 사진에 저장한 뒤,<br>인스타그램에 업로드해보세요! (캡션은 복사해뒀어요)</p>
+      <button id="btn-share-modal-close" class="btn btn-primary">확인</button>
+    </div>
+  </div>
+
+  <footer class="app-footer">© 2026 (주)바르고</footer>
+
+</div>
+<script src="js/game.js?v=47"></script>
+</body>
+</html>
