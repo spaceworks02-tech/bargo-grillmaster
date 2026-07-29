@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "kr.co.bargo2023.grillmaster",
+        "sha256_cert_fingerprints": ["43:C8:7B:60:09:D9:F6:38:CD:0B:28:20:47:64:32:71:30:F3:1E:5B:CE:CE:22:9A:27:0F:4D:2F:7A:0A:BB:92"]
+      }
+    }]
