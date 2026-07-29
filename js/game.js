@@ -608,7 +608,7 @@ function buildShareCardImage({ gradeIcon, grade, total, coupon }) {
     ctx.textAlign = "center";
     ctx.fillStyle = "#d9b364";
     ctx.font = "bold 30px sans-serif";
-    ctx.fillText("「불의 향연」 2026.9.10~13", W / 2, 110);
+    ctx.fillText("「불의 향연」", W / 2, 110);
 
     ctx.font = "220px sans-serif";
     ctx.fillText(gradeIcon, W / 2, 430);
